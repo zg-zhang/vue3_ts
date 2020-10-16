@@ -17,23 +17,30 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { reactive, toRefs } from 'vue';
 
-export default defineComponent({
+export default {
   name: 'App',
   setup() {
-    const list = ref(['a', 'b', 'c']);
-    const selectList = ref("");
-    const selectListFun = (index: number) => {
-      selectList.value = list.value[index];
-    }
+    const data: DataProps = reactive({
+      list: ['a', 'b', 'c'],
+      selectList: "",
+      selectListFun: (index: number) => {
+        data.selectList = data.list[index];
+      }
+    })
+    const refData = toRefs(data)
     return {
-      list,
-      selectList,
-      selectListFun
+      ...refData
     }
   }
-});
+};
+
+interface DataProps {
+  list: string[];
+  selectList: string;
+  selectListFun: (index: number) => void;
+}
 </script>
 
 <style>
